@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=False
+  db:
+    image: postgres:13 # or use sqlite but remember the file-based nature of SQLite in Docker
+    environment:
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+  rabbitmq:
+    image: "rabbitmq"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
