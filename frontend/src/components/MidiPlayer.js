@@ -11,7 +11,7 @@ const MidiPlayer = () => {
     const file = e.target.files[0];
     const arrayBuffer = await file.arrayBuffer();
     const midi = new Midi(arrayBuffer);
-    
+
     setMidiFile(midi);
   };
 

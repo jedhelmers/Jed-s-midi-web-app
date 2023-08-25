@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: web_test
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    volumes:
+      - .:/app
+    depends_on:
+      - db_test
+    environment:
+      - DEBUG=True # Set to True for more verbose error logging during tests
+      - DATABASE_NAME=mytestdatabase
+      - DATABASE_USER=mytestuser
+      - DATABASE_PASSWORD=mytestpassword
+
+  db_test:
+    container_name: db_test
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=mytestdatabase
+      - POSTGRES_USER=mytestuser
+      - POSTGRES_PASSWORD=mytestpassword
+
+  rabbitmq_test:
+    container_name: rabbitmq_test
+    image: "rabbitmq"
+    # Expose ports if necessary for testing, otherwise, keep them commented
+    # ports:
+    #   - "15673:15672"
+    #   - "5673:5672"

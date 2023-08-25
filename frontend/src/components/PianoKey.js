@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 
 const PianoKey = ({ note, isBlack, onPlayNote }) => (
   <Button
+    data-testid={note}
     style={{
       width: isBlack ? '30px' : '60px',
       height: '120px',

@@ -6,9 +6,6 @@ const synth = new Synth().toDestination();
 
 const notes = ["C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5"];
 
-// const whiteNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
-// const blackNotes = ['C#4', 'D#4', null, 'F#4', 'G#4', 'A#4', null];
-
 const Piano = () => {
   const handlePlayNote = (note) => {
     if (note) {
@@ -24,7 +21,7 @@ const Piano = () => {
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       {
         notes.map((note, i) => (
-            <PianoKey note={note} onPlayNote={handlePlayNote} isBlack={note.includes("#")} />
+            <PianoKey id={note} key={note} note={note} onPlayNote={handlePlayNote} isBlack={note.includes("#")} />
         ))
       }
     </div>
