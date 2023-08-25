@@ -1,9 +1,27 @@
 import React, { useState, useEffect } from 'react';
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
 function Recorder() {
   const [isRecording, setIsRecording] = useState(false);
   const [midiData, setMidiData] = useState([]);
   const [currentSongID, setCurrentSongID] = useState(null);
+  const csrftoken = getCookie('csrftoken');
 
   const startRecording = async () => {
     // Assuming you have a function to get the user's IP
@@ -11,12 +29,15 @@ function Recorder() {
     const ipAddress = "123.00.00.1"
     setIsRecording(true);
 
+    console.log('csrftoken', csrftoken)
+
     // Send request to Django to create a new song entry
     const response = await fetch('/api/songs/', {
       method: 'POST',
       body: JSON.stringify({ ip_address: ipAddress }),
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
       },
     });
 
@@ -39,6 +60,7 @@ function Recorder() {
           body: JSON.stringify({ id: currentSongID, midi_binary: midiData }),
           headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
           },
         });
       }, 5000);
