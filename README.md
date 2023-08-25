@@ -14,6 +14,8 @@ docker push gcr.io/YOUR_PROJECT_ID/midi_project
 
 ## Local - http://localhost:8000
 ```
+python manage.py collectstatic
+
 docker-compose build
 docker-compose run web python manage.py migrate
 
