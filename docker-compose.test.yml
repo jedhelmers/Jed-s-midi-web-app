@@ -1,32 +1,42 @@
-version: '3.8'
+version: '3'
 
 services:
-  web:
-    container_name: web_test
-    build: .
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-    volumes:
-      - .:/app
-    depends_on:
-      - db_test
-    environment:
-      - DEBUG=True # Set to True for more verbose error logging during tests
-      - DATABASE_NAME=mytestdatabase
-      - DATABASE_USER=mytestuser
-      - DATABASE_PASSWORD=mytestpassword
 
-  db_test:
-    container_name: db_test
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py test
+    environment:
+      - CELERY_BROKER_URL=pyamqp://guest:guest@rabbitmq//
+    depends_on:
+      - db
+      - rabbitmq
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A celery_config:app worker --loglevel=info
+    environment:
+      - CELERY_BROKER_URL=pyamqp://guest:guest@rabbitmq//
+    depends_on:
+      - db
+      - rabbitmq
+
+  db:
     image: postgres:13
     environment:
-      - POSTGRES_DB=mytestdatabase
-      - POSTGRES_USER=mytestuser
-      - POSTGRES_PASSWORD=mytestpassword
+      - POSTGRES_DB=your_db_name
+      - POSTGRES_USER=your_user
+      - POSTGRES_PASSWORD=your_password
 
-  rabbitmq_test:
-    container_name: rabbitmq_test
+  rabbitmq:
     image: "rabbitmq"
-    # Expose ports if necessary for testing, otherwise, keep them commented
-    # ports:
-    #   - "15673:15672"
-    #   - "5673:5672"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  redis:
+    image: "redis:alpine"
+

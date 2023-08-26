@@ -12,6 +12,7 @@ services:
       - db
     environment:
       - DEBUG=False
+      - CELERY_BROKER_URL=pyamqp://guest:guest@rabbitmq//
   db:
     image: postgres:13 # or use sqlite but remember the file-based nature of SQLite in Docker
     environment:
@@ -23,3 +24,14 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+  celery:
+    build: .
+    command: celery -A celery_config:app worker --loglevel=info
+    volumes:
+      - ./midi_project:/app/midi_project
+    depends_on:
+      - web
+      - db
+      - rabbitmq
+    environment:
+      - CELERY_BROKER_URL=pyamqp://guest:guest@rabbitmq//
