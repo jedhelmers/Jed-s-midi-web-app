@@ -7,7 +7,7 @@ from django.conf import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'midi_project.settings')
 
-app = Celery('midi_project')
+app = Celery('my_project')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

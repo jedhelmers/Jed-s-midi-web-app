@@ -1,5 +1,3 @@
-# midi_project/midi_app/tests/test_views.py
-
 from django.test import Client, TestCase
 
 class MidiViewTest(TestCase):
