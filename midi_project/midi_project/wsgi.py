@@ -1,5 +1,5 @@
 import os
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'midi_project.midi_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'midi_project.settings')
 application = get_wsgi_application()
