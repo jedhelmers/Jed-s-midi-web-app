@@ -2,7 +2,7 @@ name: Django CI/CD
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -35,5 +35,5 @@ jobs:
       uses: akhileshns/heroku-deploy@v3.12.12 # This action deploys to Heroku
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: "your-heroku-app-name"
-        heroku_email: "your-email@example.com"
+        heroku_app_name: "jedhelmersflaskapp"
+        heroku_email: "jedhelmers@gmail.com"
