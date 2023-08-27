@@ -12,11 +12,12 @@ Django==4.2.4
 django-celery-results==2.5.1
 djangorestframework==3.14.0
 gunicorn==21.2.0
+heroku==0.1.4
 idna==3.4
 kombu==5.3.1
 packaging==23.1
 prompt-toolkit==3.0.39
-python-dateutil==1.5
+python-dateutil==2.8.2
 pytz==2023.3
 requests==2.31.0
 six==1.16.0
