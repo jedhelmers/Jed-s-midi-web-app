@@ -1,1 +1,1 @@
-web: gunicorn midi_project.wsgi
+web: gunicorn midi_project.wsgi:application
