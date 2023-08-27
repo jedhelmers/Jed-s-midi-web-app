@@ -154,7 +154,7 @@ function MidiGrid() {
         playNote(i + 48);  // Assuming the grid starts at MIDI note number 24 (C1) and increases by 1 for each row
         }
     }
-    }, [grid, playhead, playNote]);
+    }, [playhead]);
 
   useEffect(() => {
     const interval = setInterval(() => {

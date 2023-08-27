@@ -19,7 +19,7 @@ function getCookie(name) {
 
 function Recorder() {
   const [isRecording, setIsRecording] = useState(false);
-  const [midiData, _] = useState([]);
+  const [midiData, setMidiData] = useState([]);
   const [currentSongID, setCurrentSongID] = useState(null);
   const csrftoken = getCookie('csrftoken');
 
