@@ -54,22 +54,38 @@ function MidiGrid() {
     const synth = new PolySynth(Synth).toDestination();
     const [grid, setGrid] = useState(generateEmptyGrid());
     const [playhead, setPlayhead] = useState(0);
-    const userId = "1234567890"
+    const [userId, setUserId] = useState(null)
+
+    console.log(userId)
     const csrftoken = getCookie('csrftoken')
     
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     
+    useEffect(() => {
+      setUserId(getCookie('user_id'))
+    }, [])
+
     async function saveSong() {
         console.log('grid', grid)
         try {
-            // console.log(JSON.stringify({ grid }))
+            console.log(
+              JSON.stringify(
+                {
+                  song_data: grid,
+                  user_id: userId
+                })
+            )
             const response = await fetch('/api/saveSong', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken
                 },
-                body: JSON.stringify({ song_data: grid })
+                body: JSON.stringify(
+                  {
+                    song_data: grid,
+                    user_id: userId
+                  })
             });
 
             const data = await response.json();

@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
 from .models import Note
 from .models import Song
@@ -8,15 +9,45 @@ from .tasks import save_song_to_db
 
 import json
 from .serializers import SongSerializer, MidiUpdateSerializer
+import uuid
+
+def create_user_id():
+    return uuid.uuid4()
+
+from django.shortcuts import render
+
+# def your_view(request):
+#     user_id = create_user_id()
+#     response = render(request, 'your_template.html', {'user_id': user_id})
+
+#     # Set it as a cookie
+#     response.set_cookie('user_id', user_id)
+    
+#     return response
 
 
-from django.http import JsonResponse
+class CustomTemplateView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_id'] = self.create_user_id()
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        response.set_cookie('user_id', context['user_id'])
+        return response
+
+    def create_user_id(self):
+        return str(uuid.uuid4())
+
 
 @require_POST
 def save_song(request):
     data = json.loads(request.body)
     song_data = data.get('song_data')
-    print('song_data', song_data)
+    # print('song_data', song_data)
 
     if song_data:
         print('WEEE!')
@@ -32,6 +63,7 @@ def save_song(request):
 def save_song(request):
     data = json.loads(request.body)
     song_data = data.get('song_data')
+    # print('song_data', song_data)
 
     if song_data:
         save_song_to_db.delay(song_data)  # This sends the task to RabbitMQ
@@ -88,7 +120,7 @@ def get_client_ip(request):
 @csrf_exempt
 @api_view(['POST'])
 def song_view(request):
-    print('\nrequest', request)
+    # print('\nrequest', request)
     if request.method == "POST":
         serializer = SongSerializer(data=request.data)
         print('serializer', serializer)

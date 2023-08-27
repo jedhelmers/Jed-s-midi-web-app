@@ -24,7 +24,8 @@ import midi_app.views as views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name="index.html")),
+    # path('', views.CustomTemplateView(template_name="index.html")),
+    path('', views.CustomTemplateView.as_view(), name='home'),
     path('api/addNote', views.add_note, name='add_note'),
     path('api/saveSong', views.save_song, name='save_song'),
     path('api/removenote', views.remove_note, name='remove_note'),
