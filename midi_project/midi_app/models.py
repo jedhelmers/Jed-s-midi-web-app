@@ -4,7 +4,7 @@ import uuid
 # from rest_framework.viewsets import GenericViewSet
 
 class Note(models.Model):
-    user_ip = models.GenericIPAddressField()
+    user_ip = models.GenericIPAddressField(protocol='both', unpack_ipv4=False)
     note = models.CharField(max_length=4)  # Example: "C#4"
     column_index = models.PositiveIntegerField()
 

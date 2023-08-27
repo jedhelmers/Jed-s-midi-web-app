@@ -34,7 +34,7 @@ function Recorder() {
     // Send request to Django to create a new song entry
     const response = await fetch('/api/songs/', {
       method: 'POST',
-      body: JSON.stringify({ ip_address: ipAddress }),
+      body: JSON.stringify({ ip_address: ipAddress, midiData }),
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': csrftoken
