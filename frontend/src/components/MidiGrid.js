@@ -47,7 +47,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const csrftoken = getCookie('csrftoken');
+// const csrftoken = getCookie('csrftoken');
 
 
 function MidiGrid() {
@@ -59,7 +59,7 @@ function MidiGrid() {
     console.log(userId)
     const csrftoken = getCookie('csrftoken')
     
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     
     useEffect(() => {
       setUserId(getCookie('user_id'))
@@ -90,7 +90,7 @@ function MidiGrid() {
 
             const data = await response.json();
 
-            if (data.status == 'success') {
+            if (data.status === 'success') {
                 console.log(`Song saved with ID: ${data.song_id}`);
             } else {
                 console.error('Oh butts.', data.error);
@@ -100,41 +100,41 @@ function MidiGrid() {
         }
     }
 
-    const addNote = async (noteName, columnIndex) => {
-        const response = await fetch('/api/addnote', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            note_name: noteName,
-            column_index: columnIndex,
-            user_id: userId
-          }),
-        });
+    // const addNote = async (noteName, columnIndex) => {
+    //     const response = await fetch('/api/addnote', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({
+    //         note_name: noteName,
+    //         column_index: columnIndex,
+    //         user_id: userId
+    //       }),
+    //     });
       
-        const data = await response.json();
-        return data;
-      }
+    //     const data = await response.json();
+    //     return data;
+    //   }
 
-      async function removeNote(note, columnIndex) {
-        const response = await fetch('/api/removenote', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                note: note,
-                column: columnIndex
-            })
-        });
-        const data = await response.json();
-        if (data.success) {
-            console.log("Note removed successfully");
-        } else {
-            console.error("Error removing note:", data.error);
-        }
-    }    
+    //   async function removeNote(note, columnIndex) {
+    //     const response = await fetch('/api/removenote', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             note: note,
+    //             column: columnIndex
+    //         })
+    //     });
+    //     const data = await response.json();
+    //     if (data.success) {
+    //         console.log("Note removed successfully");
+    //     } else {
+    //         console.error("Error removing note:", data.error);
+    //     }
+    // }    
       
     function playNote(note) {
         const _now = now()
@@ -154,7 +154,7 @@ function MidiGrid() {
         playNote(i + 48);  // Assuming the grid starts at MIDI note number 24 (C1) and increases by 1 for each row
         }
     }
-    }, [playhead]);
+    }, [grid, playhead, playNote]);
 
   useEffect(() => {
     const interval = setInterval(() => {
