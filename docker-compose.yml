@@ -28,7 +28,7 @@ services:
     build: .
     command: celery -A celery_config:app worker --loglevel=info
     volumes:
-      - ./my_project:/app/midi_project
+      - ./my_project:/app/my_project
     depends_on:
       - web
       - db
