@@ -28,7 +28,7 @@ RUN npm install
 RUN npm run build
 
 # Go back to app root
-WORKDIR /app/midi_project
+WORKDIR /app/my_project
 
 # Copy Django project files to container
 COPY . .
